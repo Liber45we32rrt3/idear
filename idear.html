@@ -1,0 +1,1471 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>IDEAR — Monitoreo de Condición y Mantenimiento Predictivo desde 1997</title>
+<meta name="description" content="Soluciones IDEAR: monitoreo continuo, mantenimiento predictivo y balanceo de máquinas. Sensores, software y servicios para industrias críticas desde 1997." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: hsl(215, 65%, 18%);
+    --navy-dark: hsl(215, 70%, 12%);
+    --navy-mid: hsl(215, 60%, 22%);
+    --navy-light: hsl(215, 30%, 94%);
+    --amber: hsl(38, 100%, 52%);
+    --amber-light: hsl(42, 100%, 62%);
+    --amber-fg: hsl(220, 50%, 12%);
+    --bg: hsl(220, 30%, 98%);
+    --fg: hsl(220, 45%, 10%);
+    --card: #fff;
+    --muted: hsl(215, 16%, 42%);
+    --border: hsl(215, 25%, 88%);
+    --secondary: hsl(215, 30%, 94%);
+    --primary-fg: hsl(40, 100%, 96%);
+    --shadow-deep: 0 20px 50px -20px hsl(215 70% 12% / 0.4);
+    --shadow-card: 0 8px 30px -12px hsl(215 60% 20% / 0.18);
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Barlow Condensed', 'Inter', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--fg);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    letter-spacing: -0.02em;
+  }
+
+  a { text-decoration: none; }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  /* ── GRID BG ── */
+  .grid-bg {
+    background-image:
+      linear-gradient(hsl(40 100% 96% / 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(40 100% 96% / 0.06) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  /* ── PULSE DOT ── */
+  .pulse-dot {
+    display: inline-flex;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--amber);
+    animation: pulse-ring 2s ease-in-out infinite;
+  }
+  @keyframes pulse-ring {
+    0%   { box-shadow: 0 0 0 0 hsl(38 100% 52% / 0.7); }
+    70%  { box-shadow: 0 0 0 14px hsl(38 100% 52% / 0); }
+    100% { box-shadow: 0 0 0 0 hsl(38 100% 52% / 0); }
+  }
+
+  /* ── NAVBAR ── */
+  #navbar {
+    position: fixed;
+    inset-inline: 0;
+    top: 0;
+    z-index: 100;
+    transition: background 0.4s var(--ease), box-shadow 0.4s var(--ease);
+  }
+  #navbar.scrolled {
+    background: hsl(215 65% 18% / 0.96);
+    backdrop-filter: blur(12px);
+    box-shadow: var(--shadow-deep);
+  }
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 96px;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .logo-svg { width: 58px; height: 58px; flex-shrink: 0; }
+  .logo-text-wrap .brand { font-family: 'Barlow Condensed', sans-serif; font-size: 1.75rem; font-weight: 700; color: var(--primary-fg); line-height: 1; }
+  .logo-text-wrap .sub { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.18em; color: hsl(40 100% 96% / 0.6); }
+
+  .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: hsl(40 100% 96% / 0.8);
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--amber); }
+
+  .btn-hero {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--amber);
+    color: var(--amber-fg);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 0.6rem 1.2rem;
+    border-radius: 3px;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.3s, box-shadow 0.3s;
+  }
+  .btn-hero:hover { opacity: 0.9; box-shadow: 0 0 60px hsl(38 100% 52% / 0.35); }
+  .btn-hero-lg { padding: 0.9rem 1.8rem; font-size: 0.88rem; }
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    background: transparent;
+    border: 2px solid hsl(40 100% 96% / 0.4);
+    color: var(--primary-fg);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 0.85rem 1.8rem;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background 0.3s, border-color 0.3s;
+  }
+  .btn-outline:hover { background: hsl(40 100% 96% / 0.1); border-color: hsl(40 100% 96% / 0.7); }
+
+  .hamburger {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--primary-fg);
+    padding: 4px;
+  }
+  .hamburger svg { width: 26px; height: 26px; }
+
+  .mobile-menu {
+    display: none;
+    background: var(--navy);
+    border-top: 1px solid hsl(40 100% 96% / 0.1);
+  }
+  .mobile-menu.open { display: block; }
+  .mobile-menu ul { list-style: none; padding: 0.5rem 1.5rem 1rem; }
+  .mobile-menu a {
+    display: block;
+    padding: 0.8rem 0;
+    color: hsl(40 100% 96% / 0.9);
+    font-weight: 500;
+    border-bottom: 1px solid hsl(40 100% 96% / 0.07);
+  }
+  .mobile-menu a:hover { color: var(--amber); }
+  .mobile-menu .btn-hero { margin-top: 0.8rem; width: 100%; justify-content: center; }
+
+  /* ── HERO ── */
+  #hero {
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
+    background: var(--navy-dark);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .hero-img {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    opacity: 0.55;
+  }
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, hsl(215 70% 10% / 0.92) 0%, hsl(215 70% 10% / 0.55) 60%, hsl(215 70% 10% / 0.15) 100%);
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 8rem 0 4rem;
+    max-width: 800px;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid hsl(38 100% 52% / 0.4);
+    background: hsl(38 100% 52% / 0.1);
+    border-radius: 100px;
+    padding: 0.4rem 1rem;
+    backdrop-filter: blur(4px);
+    margin-bottom: 1.5rem;
+  }
+  .hero-badge span {
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--amber);
+  }
+  .hero-title {
+    font-size: clamp(2.8rem, 8vw, 5.5rem);
+    font-weight: 700;
+    line-height: 1.05;
+    color: var(--primary-fg);
+    margin-bottom: 1.5rem;
+  }
+  .hero-title .highlight {
+    background: linear-gradient(135deg, var(--amber), hsl(28, 100%, 50%));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero-desc {
+    font-size: 1.1rem;
+    color: hsl(40 100% 96% / 0.8);
+    max-width: 520px;
+    margin-bottom: 2.5rem;
+    line-height: 1.7;
+  }
+  .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    max-width: 500px;
+    border-top: 1px solid hsl(40 100% 96% / 0.15);
+    padding-top: 2rem;
+    margin-top: 4rem;
+  }
+  .hero-stat-k {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--amber);
+  }
+  .hero-stat-v {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: hsl(40 100% 96% / 0.6);
+    margin-top: 2px;
+  }
+  .hero-live {
+    position: absolute;
+    bottom: 2rem; right: 2rem;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: hsl(40 100% 96% / 0.6);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+  }
+  .hero-live svg { width: 16px; height: 16px; color: var(--amber); }
+
+  /* ── SECTION LABEL ── */
+  .section-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    color: var(--amber);
+    margin-bottom: 1rem;
+  }
+
+  /* ── ABOUT ── */
+  #empresa {
+    position: relative;
+    background: var(--navy);
+    color: var(--primary-fg);
+    padding: 6rem 0;
+    overflow: hidden;
+  }
+  #empresa .grid-bg { position: absolute; inset: 0; opacity: 0.3; pointer-events: none; }
+  #empresa .glow-circle {
+    position: absolute; top: -8rem; right: -8rem;
+    width: 24rem; height: 24rem;
+    border-radius: 50%;
+    background: hsl(38 100% 52% / 0.1);
+    filter: blur(80px);
+    pointer-events: none;
+  }
+  .about-grid { display: grid; gap: 4rem; position: relative; }
+  @media (min-width: 900px) { .about-grid { grid-template-columns: 1fr 1fr; } }
+
+  .about-h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    margin-bottom: 2rem;
+    line-height: 1.1;
+  }
+  .about-text p {
+    color: hsl(40 100% 96% / 0.8);
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    line-height: 1.75;
+  }
+  .about-text .em { color: var(--amber); font-weight: 600; }
+
+  .about-bullets {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+    margin-top: 2rem;
+    list-style: none;
+  }
+  .about-bullets li {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.85rem;
+    color: hsl(40 100% 96% / 0.9);
+  }
+  .about-bullets li::before {
+    content: '';
+    display: inline-block;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--amber);
+    flex-shrink: 0;
+  }
+
+  .feature-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .feature-card {
+    border: 1px solid hsl(40 100% 96% / 0.1);
+    background: hsl(40 100% 96% / 0.03);
+    border-radius: 4px;
+    padding: 1.5rem;
+    transition: border-color 0.4s var(--ease), background 0.4s var(--ease);
+  }
+  .feature-card:hover {
+    border-color: hsl(38 100% 52% / 0.4);
+    background: hsl(40 100% 96% / 0.06);
+  }
+  .feature-icon {
+    width: 48px; height: 48px;
+    background: var(--amber);
+    color: var(--amber-fg);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.2rem;
+  }
+  .feature-icon svg { width: 24px; height: 24px; }
+  .feature-card h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.4rem; }
+  .feature-card p { font-size: 0.82rem; color: hsl(40 100% 96% / 0.7); line-height: 1.6; }
+
+  /* ── SERVICES ── */
+  #servicios { padding: 7rem 0; background: var(--bg); }
+  .services-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 2rem;
+    margin-bottom: 4rem;
+    flex-wrap: wrap;
+  }
+  .services-h2 {
+    font-size: clamp(2.2rem, 4.5vw, 4rem);
+    font-weight: 700;
+    max-width: 620px;
+  }
+  .services-h2 .em { color: var(--navy); }
+  .services-desc { max-width: 360px; color: var(--muted); font-size: 0.9rem; line-height: 1.7; }
+  .services-grid { display: grid; gap: 2rem; }
+  @media (min-width: 900px) { .services-grid { grid-template-columns: repeat(3, 1fr); } }
+
+  .service-card {
+    background: var(--card);
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+    transition: box-shadow 0.4s var(--ease), transform 0.4s var(--ease);
+  }
+  .service-card:hover { box-shadow: var(--shadow-deep); transform: translateY(-4px); }
+  .service-img-wrap { position: relative; height: 320px; overflow: hidden; }
+  .service-img-wrap img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s var(--ease);
+  }
+  .service-card:hover .service-img-wrap img { transform: scale(1.05); }
+  .service-img-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, hsl(215 70% 10% / 0.8), transparent);
+  }
+  .service-tag {
+    position: absolute; top: 1.2rem; left: 1.2rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.95rem; font-weight: 700;
+    letter-spacing: 0.2em;
+    color: var(--amber);
+  }
+  .service-title {
+    position: absolute; bottom: 1.2rem; left: 1.2rem; right: 1.2rem;
+    font-size: 1.9rem; font-weight: 700;
+    color: var(--primary-fg); letter-spacing: 0.02em;
+  }
+  .service-body { padding: 2.2rem; }
+  .service-body p { font-size: 1.05rem; color: var(--muted); margin-bottom: 1.4rem; line-height: 1.65; font-weight: 500; }
+  .service-items { list-style: none; space-y: 0.5rem; }
+  .service-items li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 1rem;
+    color: var(--fg);
+    margin-bottom: 0.6rem; font-weight: 500;
+  }
+  .service-items li::before {
+    content: '';
+    display: inline-block;
+    width: 16px; height: 4px;
+    background: var(--amber);
+    flex-shrink: 0;
+  }
+  .service-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 1.2rem;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--navy);
+    transition: color 0.3s;
+  }
+  .service-link:hover { color: var(--amber); }
+  .service-link svg { width: 16px; height: 16px; }
+
+  /* ── PRODUCTS ── */
+  #productos { padding: 6rem 0; background: var(--secondary); }
+  .products-intro { margin-bottom: 3rem; max-width: 700px; }
+  .products-h2 { font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 700; margin-bottom: 1rem; }
+  .products-sub { color: var(--muted); font-size: 0.92rem; }
+
+  .tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    border-bottom: 2px solid var(--border);
+    margin-bottom: 2.5rem;
+  }
+  .tab-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.8rem 1.2rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    position: relative;
+    transition: color 0.3s;
+  }
+  .tab-btn.active { color: var(--navy); }
+  .tab-btn.active::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    bottom: -2px;
+    height: 3px;
+    background: var(--amber);
+  }
+  .tab-btn:hover:not(.active) { color: var(--fg); }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: grid; gap: 2.5rem; }
+  @media (min-width: 900px) { .tab-content.active { grid-template-columns: 5fr 7fr; } }
+
+  .prod-left { display: flex; flex-direction: column; gap: 1.5rem; }
+  .prod-img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    border-radius: 4px;
+    box-shadow: var(--shadow-card);
+  }
+  .prod-title { font-size: 1.8rem; font-weight: 700; color: var(--navy); }
+  .prod-intro { color: var(--muted); font-size: 0.88rem; line-height: 1.7; }
+  .prod-bullets { list-style: none; }
+  .prod-bullets li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    font-size: 0.85rem;
+    color: var(--fg);
+    margin-bottom: 0.5rem;
+  }
+  .prod-bullets li::before {
+    content: '';
+    display: inline-block;
+    width: 12px; height: 4px;
+    background: var(--amber);
+    flex-shrink: 0;
+    margin-top: 0.55rem;
+  }
+  .prod-brand-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 2px solid var(--navy);
+    color: var(--navy);
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 0.6rem 1rem;
+    border-radius: 4px;
+    transition: background 0.3s, color 0.3s;
+    width: fit-content;
+  }
+  .prod-brand-link:hover { background: var(--navy); color: var(--primary-fg); }
+  .prod-brand-link svg { width: 14px; height: 14px; }
+
+  .prod-table-wrap {
+    background: var(--card);
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+  }
+  .prod-table { width: 100%; border-collapse: collapse; }
+  .prod-table thead { background: var(--navy); color: var(--primary-fg); }
+  .prod-table th {
+    padding: 1rem 1.2rem;
+    text-align: left;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+  .prod-table td { padding: 0.9rem 1.2rem; font-size: 0.85rem; border-top: 1px solid var(--border); }
+  .prod-table tr:nth-child(even) td { background: hsl(215 30% 98%); }
+  .prod-table tr:hover td { background: var(--secondary); }
+  .prod-name { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; color: var(--navy); }
+  .prod-desc { color: var(--muted); }
+
+  .prod-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    border: 2px dashed var(--border);
+    border-radius: 4px;
+    background: hsl(0 0% 100% / 0.5);
+    text-align: center;
+    padding: 2rem;
+  }
+  .prod-empty p { font-size: 1.4rem; font-weight: 700; color: var(--navy); margin-bottom: 0.5rem; }
+  .prod-empty span { color: var(--muted); font-size: 0.85rem; max-width: 280px; }
+
+  /* ── DISTRIBUTORS ── */
+  #distribuidores { padding: 6rem 0; background: var(--bg); }
+  .dist-head { display: grid; gap: 1.5rem; margin-bottom: 2.5rem; }
+  @media (min-width: 700px) { .dist-head { grid-template-columns: 1fr 1fr; align-items: end; } }
+  .dist-h2 { font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 700; }
+  .dist-sub { color: var(--muted); font-size: 0.9rem; line-height: 1.6; }
+  @media (min-width: 700px) { .dist-sub { text-align: right; } }
+
+  .country-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2.5rem; }
+  .country-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    background: var(--navy);
+    color: var(--primary-fg);
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 0.35rem 0.75rem;
+    border-radius: 100px;
+  }
+  .country-tag svg { width: 10px; height: 10px; color: var(--amber); }
+
+  .dist-table-wrap { background: var(--card); border-radius: 4px; overflow: hidden; box-shadow: var(--shadow-card); }
+  .dist-table { width: 100%; border-collapse: collapse; }
+  .dist-table thead { background: var(--navy); color: var(--primary-fg); }
+  .dist-table th { padding: 1rem 1.2rem; text-align: left; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; }
+  .dist-table td { padding: 0.85rem 1.2rem; font-size: 0.85rem; border-top: 1px solid var(--border); }
+  .dist-table tr:nth-child(even) td { background: hsl(215 30% 98%); }
+  .dist-table tr:hover td { background: var(--secondary); }
+  .dist-country { font-weight: 700; color: var(--navy); }
+  .dist-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    color: var(--navy);
+    font-size: 0.82rem;
+    transition: color 0.3s;
+  }
+  .dist-link:hover { color: var(--amber); }
+  .dist-link svg { width: 13px; height: 13px; }
+  .dist-note { margin-top: 2rem; font-size: 0.85rem; color: var(--muted); }
+  .dist-note a { font-weight: 700; color: var(--navy); transition: color 0.3s; }
+  .dist-note a:hover { color: var(--amber); }
+
+  /* ── SECTORS ── */
+  #sectores { padding: 6rem 0; background: var(--bg); border-top: 1px solid var(--border); }
+  .sectors-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 2rem; margin-bottom: 3rem; flex-wrap: wrap; }
+  .sectors-h2 { font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 700; max-width: 480px; }
+  .sectors-sub { max-width: 320px; font-size: 0.85rem; color: var(--muted); }
+  .sectors-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--border); border-radius: 4px; overflow: hidden; }
+  @media (min-width: 600px) { .sectors-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (min-width: 900px) { .sectors-grid { grid-template-columns: repeat(6, 1fr); } }
+  .sector-item {
+    background: var(--card);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 2.5rem 1rem;
+    transition: background 0.4s var(--ease);
+    cursor: default;
+  }
+  .sector-item:hover { background: var(--navy); }
+  .sector-item svg { width: 32px; height: 32px; color: var(--navy); transition: color 0.4s; }
+  .sector-item:hover svg { color: var(--amber); }
+  .sector-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--fg);
+    transition: color 0.4s;
+  }
+  .sector-item:hover .sector-label { color: var(--primary-fg); }
+
+  /* ── CONTACT ── */
+  #contacto {
+    position: relative;
+    padding: 6rem 0;
+    background: linear-gradient(135deg, hsl(215 70% 12%) 0%, hsl(215 60% 22%) 60%, hsl(210 75% 32%) 100%);
+    color: var(--primary-fg);
+    overflow: hidden;
+  }
+  #contacto .grid-bg { position: absolute; inset: 0; opacity: 0.2; pointer-events: none; }
+  .contact-glow {
+    position: absolute; left: -10rem; top: 50%;
+    transform: translateY(-50%);
+    width: 32rem; height: 32rem;
+    border-radius: 50%;
+    background: hsl(38 100% 52% / 0.15);
+    filter: blur(100px);
+    pointer-events: none;
+  }
+  .contact-grid { display: grid; gap: 4rem; position: relative; }
+  @media (min-width: 900px) { .contact-grid { grid-template-columns: 1fr 1fr; } }
+
+  .contact-h2 { font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 700; margin-bottom: 1.5rem; line-height: 1.05; }
+  .contact-sub { color: hsl(40 100% 96% / 0.75); font-size: 1rem; max-width: 380px; margin-bottom: 3rem; line-height: 1.65; }
+  .contact-items { display: flex; flex-direction: column; gap: 1.5rem; }
+  .contact-item { display: flex; align-items: flex-start; gap: 1rem; }
+  .contact-icon {
+    width: 44px; height: 44px;
+    background: var(--amber);
+    color: var(--amber-fg);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .contact-icon svg { width: 20px; height: 20px; }
+  .contact-item-text {
+    padding-top: 0.6rem;
+    font-size: 0.9rem;
+    color: hsl(40 100% 96% / 0.85);
+    transition: color 0.3s;
+  }
+  a.contact-item-text:hover { color: var(--amber); }
+
+  .contact-form {
+    background: hsl(40 100% 96% / 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid hsl(40 100% 96% / 0.1);
+    border-radius: 4px;
+    padding: 2.5rem;
+  }
+  .form-row { display: grid; gap: 1.2rem; }
+  @media (min-width: 500px) { .form-row { grid-template-columns: 1fr 1fr; } }
+  .form-group { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 0; }
+  .form-group.full { grid-column: 1 / -1; }
+  .form-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: hsl(40 100% 96% / 0.7);
+  }
+  .form-input, .form-textarea {
+    background: transparent;
+    border: 1px solid hsl(40 100% 96% / 0.2);
+    border-radius: 3px;
+    color: var(--primary-fg);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    padding: 0.65rem 0.9rem;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  .form-input::placeholder, .form-textarea::placeholder { color: hsl(40 100% 96% / 0.4); }
+  .form-input:focus, .form-textarea:focus { border-color: var(--amber); }
+  .form-textarea { resize: vertical; min-height: 110px; }
+  .form-submit {
+    margin-top: 1.5rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: var(--amber);
+    color: var(--amber-fg);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 0.95rem;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: opacity 0.3s, box-shadow 0.3s;
+  }
+  .form-submit:hover { opacity: 0.9; box-shadow: 0 0 60px hsl(38 100% 52% / 0.35); }
+  .form-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+  .form-submit svg { width: 18px; height: 18px; }
+
+  .toast {
+    position: fixed;
+    bottom: 2rem; right: 2rem;
+    background: var(--navy);
+    color: var(--primary-fg);
+    border: 1px solid var(--amber);
+    border-radius: 6px;
+    padding: 1rem 1.5rem;
+    font-size: 0.88rem;
+    box-shadow: var(--shadow-deep);
+    z-index: 200;
+    transform: translateY(120%);
+    transition: transform 0.4s var(--ease);
+  }
+  .toast.show { transform: translateY(0); }
+  .toast strong { color: var(--amber); display: block; margin-bottom: 0.2rem; font-weight: 700; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--navy);
+    border-top: 1px solid hsl(40 100% 96% / 0.1);
+    padding: 2.5rem 0;
+  }
+  .footer-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  @media (min-width: 700px) {
+    .footer-inner { flex-direction: row; justify-content: space-between; }
+  }
+  .footer-copy {
+    font-size: 0.75rem;
+    color: hsl(40 100% 96% / 0.6);
+    text-align: center;
+  }
+  .footer-copy a { color: inherit; transition: color 0.3s; }
+  .footer-copy a:hover { color: var(--amber); }
+
+  /* ── SCROLL ANIMATIONS ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .nav-links, .nav-cta { display: none; }
+    .hamburger { display: flex; }
+    .feature-cards { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .hero-stats { grid-template-columns: 1fr 1fr; }
+    .services-head { flex-direction: column; }
+    .sectors-head { flex-direction: column; }
+    .about-bullets { grid-template-columns: 1fr; }
+    .dist-table th:last-child, .dist-table td:last-child { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header id="navbar">
+  <nav class="container">
+    <div class="nav-inner">
+      <a href="#top" aria-label="IDEAR inicio" class="logo">
+        <svg class="logo-svg" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="20" cy="16" r="9" stroke="hsl(40,100%,96%)" stroke-width="2"/>
+          <path d="M3 30 L11 30 L14 22 L18 34 L22 18 L26 32 L30 26 L37 26" stroke="hsl(38,100%,52%)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+        <div class="logo-text-wrap">
+          <div class="brand">IDEAR</div>
+          <div class="sub">Condition Monitoring</div>
+        </div>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#empresa">Empresa</a></li>
+        <li><a href="#productos">Productos</a></li>
+        <li><a href="#distribuidores">Distribuidores</a></li>
+        <li><a href="#sectores">Sectores</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+
+      <a href="#contacto" class="btn-hero nav-cta">Solicitar demo</a>
+
+      <button class="hamburger" id="hamburger-btn" aria-label="Abrir menú">
+        <svg id="icon-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        <svg id="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+  </nav>
+  <div class="mobile-menu" id="mobile-menu">
+    <ul>
+      <li><a href="#empresa" class="mobile-link">Empresa</a></li>
+      <li><a href="#productos" class="mobile-link">Productos</a></li>
+      <li><a href="#distribuidores" class="mobile-link">Distribuidores</a></li>
+      <li><a href="#sectores" class="mobile-link">Sectores</a></li>
+      <li><a href="#contacto" class="mobile-link">Contacto</a></li>
+      <li><a href="#contacto" class="btn-hero mobile-link">Solicitar demo</a></li>
+    </ul>
+  </div>
+</header>
+
+<!-- HERO -->
+<section id="top" style="position:relative;">
+  <div id="hero">
+    <img class="hero-img" src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=1920&q=80" alt="Técnico industrial junto a turbina" loading="eager" />
+    <div class="hero-overlay"></div>
+    <div class="grid-bg" style="position:absolute;inset:0;opacity:0.4;pointer-events:none;"></div>
+
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span class="pulse-dot"></span>
+          <span>Condition Monitoring desde 1997</span>
+        </div>
+
+        <h1 class="hero-title">
+          Alta tecnología para el<br>
+          <span class="highlight">monitoreo de máquinas</span>
+        </h1>
+
+        <p class="hero-desc">
+          Mantenimiento predictivo, monitoreo continuo, equipos para balanceo y protecciones API 670.
+          Hardware, software y servicios para industrias críticas en LATAM.
+        </p>
+
+        <div class="hero-ctas">
+          <a href="#contacto" class="btn-hero btn-hero-lg">
+            Hablar con un experto
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+          <a href="#productos" class="btn-outline">Ver productos</a>
+        </div>
+
+        <div class="hero-stats">
+          <div>
+            <div class="hero-stat-k">27+</div>
+            <div class="hero-stat-v">Años de trayectoria</div>
+          </div>
+          <div>
+            <div class="hero-stat-k">+500</div>
+            <div class="hero-stat-v">Plantas monitoreadas</div>
+          </div>
+          <div>
+            <div class="hero-stat-k">API 670</div>
+            <div class="hero-stat-v">Cumplimiento estándar</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-live">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      <span>Live monitoring</span>
+    </div>
+  </div>
+</section>
+
+<!-- EMPRESA -->
+<section id="empresa">
+  <div class="grid-bg"></div>
+  <div class="glow-circle"></div>
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <div class="section-label">— Empresa</div>
+        <h2 class="about-h2">Alta tecnología para monitoreo de máquinas.</h2>
+        <p><span class="em">Desde 1997</span> invertimos sostenidamente en el desarrollo de productos de alta calidad para protección de máquinas y mantenimiento predictivo.</p>
+        <p>Nuestra tecnología es aplicada en compañías mineras, papeleras, siderúrgicas, petroquímicas, generadoras de energía, de alimentos y otros rubros industriales.</p>
+        <p>Nuestros productos se comercializan en Argentina y se exportan a Latinoamérica a través de distribuidores calificados y comprometidos con nuestra marca.</p>
+        <p>Nos respalda una trayectoria de más de <span class="em">27 años</span> de compromiso, experiencia y evolución puestos al servicio de nuestros clientes.</p>
+        <ul class="about-bullets">
+          <li>Mantenimiento predictivo</li>
+          <li>Monitoreo continuo</li>
+          <li>Equipos para balanceo</li>
+          <li>Protecciones en máquinas</li>
+        </ul>
+      </div>
+
+      <div class="feature-cards">
+        <div class="feature-card reveal reveal-delay-1">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h3>Calidad sostenida</h3>
+          <p>Desde 1997 invertimos en el desarrollo de productos de alta calidad.</p>
+        </div>
+        <div class="feature-card reveal reveal-delay-2">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><polyline points="8 21 12 17 16 21"/></svg>
+          </div>
+          <h3>Tecnología propia</h3>
+          <p>Hardware y software diseñados in-house para condition monitoring.</p>
+        </div>
+        <div class="feature-card reveal reveal-delay-1">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+          </div>
+          <h3>Servicio integral</h3>
+          <p>Ingeniería, instalación, puesta en marcha y soporte continuo.</p>
+        </div>
+        <div class="feature-card reveal reveal-delay-2">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          </div>
+          <h3>Presencia LATAM</h3>
+          <p>Distribuidores calificados en toda Latinoamérica.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICIOS -->
+<section id="servicios">
+  <div class="container">
+    <div class="services-head">
+      <div>
+        <div class="section-label" style="color:var(--amber);">— Lo que hacemos</div>
+        <h2 class="services-h2">
+          Tres líneas, una misma obsesión:<br>
+          <span class="em">cero paradas no planificadas</span>.
+        </h2>
+      </div>
+      <p class="services-desc">
+        Diseñamos, instalamos y operamos sistemas de condition monitoring extremo a extremo. Desde el sensor hasta el tablero ejecutivo.
+      </p>
+    </div>
+
+    <div class="services-grid">
+      <article class="service-card reveal">
+        <div class="service-img-wrap">
+          <img src="https://images.unsplash.com/photo-1565962790-82f6c82cc12e?w=800&q=80" alt="Monitoreo Continuo" loading="lazy" />
+          <div class="service-img-overlay"></div>
+          <div class="service-tag">01</div>
+          <h3 class="service-title">Monitoreo Continuo</h3>
+        </div>
+        <div class="service-body">
+          <p>Protecciones API 670, software de supervisión, sensores, cables y accesorios para activos críticos.</p>
+          <ul class="service-items">
+            <li>Protecciones API 670</li>
+            <li>Software SCADA</li>
+            <li>Sensores y cables</li>
+          </ul>
+          <a href="#contacto" class="service-link">
+            Consultar línea
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <article class="service-card reveal reveal-delay-1">
+        <div class="service-img-wrap">
+          <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=800&q=80" alt="Mantenimiento Predictivo" loading="lazy" />
+          <div class="service-img-overlay"></div>
+          <div class="service-tag">02</div>
+          <h3 class="service-title">Mantenimiento Predictivo</h3>
+        </div>
+        <div class="service-body">
+          <p>Medidores y colectores portátiles, analizadores avanzados y software para diagnóstico temprano.</p>
+          <ul class="service-items">
+            <li>Medidores y colectores</li>
+            <li>Analizadores FFT</li>
+            <li>Software predictivo</li>
+          </ul>
+          <a href="#contacto" class="service-link">
+            Consultar línea
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <article class="service-card reveal reveal-delay-2">
+        <div class="service-img-wrap">
+          <img src="https://images.unsplash.com/photo-1581092335878-2d9ff86ca2bf?w=800&q=80" alt="Balanceo Industrial" loading="lazy" />
+          <div class="service-img-overlay"></div>
+          <div class="service-tag">03</div>
+          <h3 class="service-title">Balanceo Industrial</h3>
+        </div>
+        <div class="service-body">
+          <p>Equipos para balanceo in-situ e instrumentos para balanceadoras con certificación ISO 1940.</p>
+          <ul class="service-items">
+            <li>Balanceo in-situ</li>
+            <li>Instrumentación</li>
+            <li>Certificación ISO 1940</li>
+          </ul>
+          <a href="#contacto" class="service-link">
+            Consultar línea
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+          </a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTOS -->
+<section id="productos">
+  <div class="container">
+    <div class="products-intro reveal">
+      <div class="section-label">— Productos</div>
+      <h2 class="products-h2">Catálogo completo de soluciones IDEAR.</h2>
+      <p class="products-sub">Hardware y software para monitorear, proteger y balancear sus activos rotantes críticos.</p>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="monitoreo">Monitoreo Continuo</button>
+      <button class="tab-btn" data-tab="predictivo">Mantenimiento Predictivo</button>
+      <button class="tab-btn" data-tab="balanceo">Balanceo</button>
+      <button class="tab-btn" data-tab="acelerometros">Acelerómetros</button>
+      <button class="tab-btn" data-tab="proximidad">Sensores Proximidad</button>
+    </div>
+
+    <!-- TAB: Monitoreo Continuo -->
+    <div class="tab-content active" id="tab-monitoreo">
+      <div class="prod-left">
+        <img class="prod-img" src="https://images.unsplash.com/photo-1565962790-82f6c82cc12e?w=800&q=80" alt="Monitoreo Continuo" loading="lazy" />
+        <h3 class="prod-title">Monitoreo Continuo</h3>
+        <p class="prod-intro">Amplia gama de productos para monitorear y proteger motores, ventiladores, turbogeneradores y todo tipo de máquinas industriales. Instrumentos versátiles, configurables, con comunicación a sistemas de control y software MAINTraq OnLine.</p>
+      </div>
+      <div class="prod-table-wrap">
+        <table class="prod-table">
+          <thead><tr><th style="width:35%">Producto</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td class="prod-name">TV420</td><td class="prod-desc">Transmisor de vibraciones</td></tr>
+            <tr><td class="prod-name">VIBRASPEC 200</td><td class="prod-desc">Monitor de vibraciones de 2 canales para protección de máquinas</td></tr>
+            <tr><td class="prod-name">VIBRASPEC 400</td><td class="prod-desc">Monitor de vibraciones de 4 canales para protección de máquinas</td></tr>
+            <tr><td class="prod-name">VIBRASPEC 800</td><td class="prod-desc">Monitor de vibraciones de 8 canales para protección de máquinas</td></tr>
+            <tr><td class="prod-name">RTU AI 800</td><td class="prod-desc">Monitor de variables para protección de máquinas</td></tr>
+            <tr><td class="prod-name">MAINTraq OnLine Server</td><td class="prod-desc">Software servidor para monitoreo continuo de máquinas</td></tr>
+            <tr><td class="prod-name">MAINTraq OnLine</td><td class="prod-desc">Software cliente para monitoreo continuo de máquinas</td></tr>
+            <tr><td class="prod-name">MAINTraq RealTime</td><td class="prod-desc">Software para supervisión de máquinas</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB: Predictivo -->
+    <div class="tab-content" id="tab-predictivo">
+      <div class="prod-left">
+        <img class="prod-img" src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=800&q=80" alt="Mantenimiento Predictivo" loading="lazy" />
+        <h3 class="prod-title">Mantenimiento Predictivo</h3>
+        <p class="prod-intro">Instrumentos para mantenimiento predictivo empleados para el monitoreo manual de máquinas. Permiten realizar análisis detallados de vibraciones mecánicas.</p>
+        <ul class="prod-bullets">
+          <li>Medidor portátil, verificador de rodamientos y colector de datos</li>
+          <li>Analizador portátil de vibraciones de uno o dos canales</li>
+          <li>Balanceador portátil</li>
+          <li>Analizador multicanal</li>
+          <li>Analizador inalámbrico</li>
+        </ul>
+      </div>
+      <div class="prod-table-wrap">
+        <table class="prod-table">
+          <thead><tr><th style="width:35%">Producto</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td class="prod-name">VIBRACHECK 100</td><td class="prod-desc">Colector y analizador de vibraciones de un canal</td></tr>
+            <tr><td class="prod-name">VIBRACHECK 200</td><td class="prod-desc">Colector y analizador de vibraciones de dos canales</td></tr>
+            <tr><td class="prod-name">ADQ</td><td class="prod-desc">Analizador de 16 canales</td></tr>
+            <tr><td class="prod-name">BLUEVIB</td><td class="prod-desc">Sensor de vibraciones inalámbrico</td></tr>
+            <tr><td class="prod-name">MAINTraq Predictive</td><td class="prod-desc">Software para mantenimiento predictivo</td></tr>
+            <tr><td class="prod-name">MAINTraq Reader</td><td class="prod-desc">Software para análisis de vibraciones</td></tr>
+            <tr><td class="prod-name">MAINTraq Analyzer</td><td class="prod-desc">Software para análisis de vibraciones especiales</td></tr>
+            <tr><td class="prod-name">MAINTraq ODS</td><td class="prod-desc">Software para análisis ODS</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB: Balanceo -->
+    <div class="tab-content" id="tab-balanceo">
+      <div class="prod-left">
+        <img class="prod-img" src="https://images.unsplash.com/photo-1581092335878-2d9ff86ca2bf?w=800&q=80" alt="Balanceo" loading="lazy" />
+        <h3 class="prod-title">Balanceo</h3>
+        <p class="prod-intro">Equipos IDEAR para balanceo de precisión, aplicados para equilibrar rotores.</p>
+        <ul class="prod-bullets">
+          <li>Balanceo en sitio de ventiladores, motores, centrífugas y otras máquinas industriales</li>
+          <li>Equipos para instrumentar balanceadoras de taller</li>
+          <li>Software para balancear y certificar el equilibrado de rotores según norma ISO 1940</li>
+        </ul>
+      </div>
+      <div class="prod-table-wrap">
+        <table class="prod-table">
+          <thead><tr><th style="width:35%">Producto</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td class="prod-name">MAINTraq Balance</td><td class="prod-desc">Software para balanceo</td></tr>
+            <tr><td class="prod-name">VIBRACHECK 100 B</td><td class="prod-desc">Balanceador portátil</td></tr>
+            <tr><td class="prod-name">VIBRACHECK 100 AB</td><td class="prod-desc">Balanceador portátil y analizador de vibraciones</td></tr>
+            <tr><td class="prod-name">VIBRASPEC 200</td><td class="prod-desc">Medidor de vibraciones y fase para balanceo en sitio o en balanceadora</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB: Acelerómetros -->
+    <div class="tab-content" id="tab-acelerometros">
+      <div class="prod-left">
+        <img class="prod-img" src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80" alt="Acelerómetros" loading="lazy" />
+        <h3 class="prod-title">Acelerómetros y Accesorios</h3>
+        <p class="prod-intro">IDEAR representa a MEGGITT SENSING SYSTEMS, líder mundial en fabricación de acelerómetros marca Wilcoxon Research.</p>
+        <ul class="prod-bullets">
+          <li>Acelerómetros</li>
+          <li>Cables y conectores</li>
+          <li>Cajas de conexiones</li>
+          <li>Transmisores de vibraciones</li>
+          <li>Accesorios para montaje</li>
+        </ul>
+        <a href="https://www.wilcoxon.com" target="_blank" rel="noopener" class="prod-brand-link">
+          Más información: wilcoxon.com
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </a>
+      </div>
+      <div class="prod-empty">
+        <p>Línea representada</p>
+        <span>Consulte por el catálogo completo y especificaciones técnicas con nuestro equipo comercial.</span>
+        <a href="#contacto" class="btn-hero" style="margin-top:1.5rem;">Solicitar catálogo</a>
+      </div>
+    </div>
+
+    <!-- TAB: Proximidad -->
+    <div class="tab-content" id="tab-proximidad">
+      <div class="prod-left">
+        <img class="prod-img" src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&q=80" alt="Sensores de Proximidad" loading="lazy" />
+        <h3 class="prod-title">Sensores de Proximidad y Accesorios</h3>
+        <p class="prod-intro">IDEAR comercializa productos marca PROVITECH para monitoreo de vibraciones relativas y posición de ejes.</p>
+        <ul class="prod-bullets">
+          <li>Sensores de proximidad</li>
+          <li>Cables</li>
+          <li>Drivers</li>
+          <li>Monitores en rack</li>
+          <li>Transmisores</li>
+          <li>Switches de vibración</li>
+        </ul>
+        <a href="https://www.provibtech.com" target="_blank" rel="noopener" class="prod-brand-link">
+          Más información: provibtech.com
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </a>
+      </div>
+      <div class="prod-empty">
+        <p>Línea representada</p>
+        <span>Consulte por el catálogo completo y especificaciones técnicas con nuestro equipo comercial.</span>
+        <a href="#contacto" class="btn-hero" style="margin-top:1.5rem;">Solicitar catálogo</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DISTRIBUIDORES -->
+<section id="distribuidores">
+  <div class="container">
+    <div class="dist-head reveal">
+      <div>
+        <div class="section-label">— Distribuidores</div>
+        <h2 class="dist-h2">Nuestros productos en Latinoamérica.</h2>
+      </div>
+      <p class="dist-sub">Red de distribuidores calificados en 9 países, comprometidos con la marca IDEAR y el soporte técnico local.</p>
+    </div>
+
+    <div class="country-tags reveal">
+      <span class="country-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Argentina</span>
+      <span class="country-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Bolivia</span>
+      <span class="country-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Brasil</span>
+      <span class="country-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Chile</span>
+      <span class="country-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Colombia</span>
+      <span class="country-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Ecuador</span>
+      <span class="country-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>México</span>
+      <span class="country-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Perú</span>
+      <span class="country-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Venezuela</span>
+    </div>
+
+    <div class="dist-table-wrap reveal">
+      <table class="dist-table">
+        <thead>
+          <tr><th>País</th><th>Empresa</th><th>Contacto</th></tr>
+        </thead>
+        <tbody id="dist-tbody">
+          <tr><td class="dist-country">Argentina</td><td>DMP S.A.</td><td><a href="https://www.dmpsa.com.ar" target="_blank" rel="noopener" class="dist-link">dmpsa.com.ar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a></td></tr>
+          <tr><td class="dist-country">Bolivia</td><td>Mining & Maintenance</td><td><a href="https://www.miningbolivia.com.bo" target="_blank" rel="noopener" class="dist-link">miningbolivia.com.bo <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a></td></tr>
+          <tr><td class="dist-country">Brasil</td><td>Alliance Systems Com. e Representações Ltda.</td><td><a href="https://www.alliancesystems.com.br" target="_blank" rel="noopener" class="dist-link">alliancesystems.com.br <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a></td></tr>
+          <tr><td class="dist-country">Brasil</td><td>RPM Sul</td><td><a href="https://www.rpmsul.com.br" target="_blank" rel="noopener" class="dist-link">rpmsul.com.br <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a></td></tr>
+          <tr><td class="dist-country">Chile</td><td>AENTEC</td><td><a href="https://www.aentec.cl" target="_blank" rel="noopener" class="dist-link">aentec.cl <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a></td></tr>
+          <tr><td class="dist-country">Chile</td><td>REIMAQ — Innovaciones y Desarrollos On Line Ltda.</td><td><a href="https://www.innovacionesonline.cl" target="_blank" rel="noopener" class="dist-link">innovacionesonline.cl <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a></td></tr>
+          <tr><td class="dist-country">Colombia</td><td>IDC Ingeniería de Confiabilidad SAS</td><td><a href="https://www.idc-confiabilidad.com" target="_blank" rel="noopener" class="dist-link">idc-confiabilidad.com <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a></td></tr>
+          <tr><td class="dist-country">Colombia</td><td>INCO Ingeniería y Confiabilidad S.A.S.</td><td><a href="https://www.incosas.co" target="_blank" rel="noopener" class="dist-link">incosas.co <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a></td></tr>
+          <tr><td class="dist-country">Colombia</td><td>Servianalisis S.A.S.</td><td><a href="https://www.servianalisiscolombia.com" target="_blank" rel="noopener" class="dist-link">servianalisiscolombia.com <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a></td></tr>
+          <tr><td class="dist-country">Colombia</td><td>SEMAPI Ltda.</td><td><a href="https://www.semapicolombia.com" target="_blank" rel="noopener" class="dist-link">semapicolombia.com <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a></td></tr>
+          <tr><td class="dist-country">Colombia</td><td>Espectrum Ltda.</td><td><a href="https://www.espectrum.com.co" target="_blank" rel="noopener" class="dist-link">espectrum.com.co <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a></td></tr>
+          <tr><td class="dist-country">Ecuador</td><td>MAPREIN</td><td><a href="mailto:jgonzalez@mapreservicios.com" class="dist-link">jgonzalez@mapreservicios.com <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a></td></tr>
+          <tr><td class="dist-country">México</td><td>TPPMI</td><td><a href="https://www.tppmi.com" target="_blank" rel="noopener" class="dist-link">tppmi.com <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a></td></tr>
+          <tr><td class="dist-country">Perú</td><td>SEDISA</td><td><a href="https://www.sedisa.com.pe/servicios" target="_blank" rel="noopener" class="dist-link">sedisa.com.pe <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a></td></tr>
+          <tr><td class="dist-country">Venezuela</td><td>Servianalisis C.A.</td><td><a href="https://www.servianalisis.com.ve" target="_blank" rel="noopener" class="dist-link">servianalisis.com.ve <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="dist-note">
+      ¿Su país no figura en la lista?
+      <a href="#contacto">Contáctenos directamente</a>
+      para conocer las opciones de distribución.
+    </p>
+  </div>
+</section>
+
+<!-- SECTORES -->
+<section id="sectores">
+  <div class="container">
+    <div class="sectors-head">
+      <h2 class="sectors-h2">Industrias que confían en IDEAR</h2>
+      <p class="sectors-sub">Nuestra tecnología opera 24/7 en plantas donde un minuto de parada cuesta miles de dólares.</p>
+    </div>
+    <div class="sectors-grid">
+      <div class="sector-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 3H2v18h20V9l-6-6H8z"/><path d="M14 3v6h6"/><path d="M9 13h6m-6 4h6"/></svg>
+        <span class="sector-label">Oil & Gas</span>
+      </div>
+      <div class="sector-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        <span class="sector-label">Generación</span>
+      </div>
+      <div class="sector-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+        <span class="sector-label">Cemento</span>
+      </div>
+      <div class="sector-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+        <span class="sector-label">Papel & Celulosa</span>
+      </div>
+      <div class="sector-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+        <span class="sector-label">Minería</span>
+      </div>
+      <div class="sector-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 16.3c2.2 0 4-1.83 4-4.05 0-1.16-.57-2.26-1.71-3.19S7.29 6.75 7 5.3c-.29 1.45-1.14 2.84-2.29 3.76S3 11.1 3 12.25c0 2.22 1.8 4.05 4 4.05z"/><path d="M12.56 6.6A10.97 10.97 0 0 0 14 3.02c.5 2.5 2 4.9 4 6.5s3 3.5 3 5.5a6.98 6.98 0 0 1-11.91 4.97"/></svg>
+        <span class="sector-label">Petroquímica</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section id="contacto">
+  <div class="grid-bg"></div>
+  <div class="contact-glow"></div>
+  <div class="container">
+    <div class="contact-grid">
+      <div class="reveal">
+        <div class="section-label">— Contacto</div>
+        <h2 class="contact-h2">Conversemos sobre sus activos críticos.</h2>
+        <p class="contact-sub">Le respondemos en menos de 24 horas hábiles con una propuesta técnica adaptada a su planta.</p>
+
+        <div class="contact-items">
+          <div class="contact-item">
+            <div class="contact-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <span class="contact-item-text">Lambaré 815 (C1185ABC), Buenos Aires, Argentina</span>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.38 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6.18 6.18l.98-.98a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </div>
+            <a href="tel:+541148631332" class="contact-item-text">+54 (11) 4863-1332</a>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <a href="mailto:idear@idearnet.com.ar" class="contact-item-text">idear@idearnet.com.ar</a>
+          </div>
+        </div>
+      </div>
+
+      <form class="contact-form reveal reveal-delay-1" id="contact-form" onsubmit="handleSubmit(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Nombre</label>
+            <input class="form-input" type="text" name="name" placeholder="Juan Pérez" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Empresa</label>
+            <input class="form-input" type="text" name="company" placeholder="Su empresa" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            <input class="form-input" type="email" name="email" placeholder="usted@empresa.com" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Teléfono</label>
+            <input class="form-input" type="tel" name="phone" placeholder="+54 ..." />
+          </div>
+          <div class="form-group full">
+            <label class="form-label">¿En qué podemos ayudarle?</label>
+            <textarea class="form-textarea" name="message" rows="4" placeholder="Cuéntenos sobre su aplicación..." required></textarea>
+          </div>
+        </div>
+        <button type="submit" class="form-submit" id="submit-btn">
+          Enviar mensaje
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <a href="#top" class="logo">
+        <svg class="logo-svg" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="20" cy="16" r="9" stroke="hsl(40,100%,96%)" stroke-width="2"/>
+          <path d="M3 30 L11 30 L14 22 L18 34 L22 18 L26 32 L30 26 L37 26" stroke="hsl(38,100%,52%)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+        <div class="logo-text-wrap">
+          <div class="brand">IDEAR</div>
+          <div class="sub">Condition Monitoring</div>
+        </div>
+      </a>
+      <p class="footer-copy">
+        © 2025 Soluciones IDEAR S.R.L. — Lambaré 815, Buenos Aires, Argentina ·
+        <a href="mailto:idear@idearnet.com.ar">idear@idearnet.com.ar</a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <strong>Mensaje enviado</strong>
+  Un especialista de IDEAR se pondrá en contacto en menos de 24 h.
+</div>
+
+<script>
+  // ── Navbar scroll
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 24);
+  });
+  navbar.classList.toggle('scrolled', window.scrollY > 24);
+
+  // ── Hamburger
+  const hamburgerBtn = document.getElementById('hamburger-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const iconMenu = document.getElementById('icon-menu');
+  const iconClose = document.getElementById('icon-close');
+  hamburgerBtn.addEventListener('click', () => {
+    const open = mobileMenu.classList.toggle('open');
+    iconMenu.style.display = open ? 'none' : '';
+    iconClose.style.display = open ? '' : 'none';
+  });
+  document.querySelectorAll('.mobile-link').forEach(l => {
+    l.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      iconMenu.style.display = '';
+      iconClose.style.display = 'none';
+    });
+  });
+
+  // ── Tabs
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  // ── Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+  revealEls.forEach(el => observer.observe(el));
+
+  // ── Contact form
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.textContent = 'Enviando...';
+    setTimeout(() => {
+      e.target.reset();
+      btn.disabled = false;
+      btn.innerHTML = 'Enviar mensaje <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
+      const toast = document.getElementById('toast');
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 4000);
+    }, 900);
+  }
+</script>
+</body>
+</html>
